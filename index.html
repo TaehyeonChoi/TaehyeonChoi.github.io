@@ -38,8 +38,16 @@
 
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
 
-  /* Header */
-  header { padding: 72px 0 40px; border-bottom: 1px solid var(--rule); }
+  /* Top bar */
+  .topbar { position: sticky; top: 0; background: rgba(255,255,255,0.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); z-index: 10; }
+  .topbar .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 24px; }
+  .brand { font-family: var(--serif); font-weight: 600; font-size: 18px; color: var(--ink); border: 0; padding: 12px 0; }
+  .brand:hover { color: var(--accent); }
+
+  /* Home */
+  .hero { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: start; padding: 56px 0 36px; border-bottom: 1px solid var(--rule); }
+  .photo { width: 200px; aspect-ratio: 4 / 5; border-radius: 6px; background: var(--bg-soft); border: 1px solid var(--rule); overflow: hidden; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 14px; }
   h1 { font-family: var(--serif); font-weight: 600; font-size: 44px; line-height: 1.1; margin: 0 0 8px; letter-spacing: -0.01em; }
   .ko-name { font-family: var(--serif); font-size: 20px; color: var(--ink-soft); margin: 0 0 22px; }
@@ -48,14 +56,15 @@
   .contact { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 22px; }
 
   /* Nav */
-  nav { position: sticky; top: 0; background: rgba(246,241,231,0.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); z-index: 10; }
   nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 22px; }
   nav li a { display: inline-block; padding: 12px 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); border: 0; }
-  nav li a:hover { color: var(--accent); }
+  nav li a:hover, nav li a.active { color: var(--accent); }
+  nav li a.active { box-shadow: inset 0 -2px 0 var(--accent); }
 
-  /* Sections */
-  section { padding: 44px 0; border-bottom: 1px solid var(--rule); }
-  section:last-of-type { border-bottom: 0; }
+  /* Pages: only one is shown at a time */
+  .page { display: none; }
+  .page.show { display: block; }
+  section { padding: 44px 0; }
   h2 { font-family: var(--serif); font-weight: 600; font-size: 26px; margin: 0 0 22px; letter-spacing: -0.01em; }
   h3 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin: 28px 0 12px; font-weight: 500; }
   h3:first-of-type { margin-top: 0; }
@@ -93,7 +102,8 @@
   footer { padding: 36px 0 60px; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
 
   @media (max-width: 600px) {
-    header { padding: 48px 0 32px; }
+    .hero { grid-template-columns: 1fr; gap: 24px; padding: 36px 0 28px; }
+    .photo { width: 150px; }
     h1 { font-size: 34px; }
     .row { grid-template-columns: 1fr; gap: 2px; }
   }
@@ -101,37 +111,43 @@
 </head>
 <body>
 
-<header>
+<div class="topbar">
   <div class="wrap">
-    <p class="eyebrow">Computer Vision · 3D Perception · Generative Models</p>
-    <h1>Taehyeon Choi</h1>
-    <p class="ko-name">최태현 · Ph.D.</p>
-    <p class="affil"><strong>Research Professor</strong>, BK21 Educational Research Institute for AI-Contents Future Industry</p>
-    <p class="affil">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University</p>
-    <div class="contact">
-      <span>taehyeon [at] korea.ac.kr</span>
-      <a href="https://github.com/TaehyeonChoi">GitHub</a>
-      <a href="https://www.scopus.com/authid/detail.uri?authorId=55385446400">Scopus</a>
-    </div>
+    <a class="brand" href="#home">Taehyeon Choi</a>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#service">Service</a></li>
+        <li><a href="#patents">Patents</a></li>
+      </ul>
+    </nav>
   </div>
-</header>
-
-<nav>
-  <div class="wrap">
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#service">Service</a></li>
-      <li><a href="#patents">Patents</a></li>
-    </ul>
-  </div>
-</nav>
+</div>
 
 <main class="wrap">
 
-<section id="about">
+<!-- ===== HOME ===== -->
+<div class="page" id="home">
+  <div class="hero">
+    <!-- 사진: 같은 저장소에 photo.jpg 를 올리면 자동으로 표시됩니다 -->
+    <div class="photo"><img src="photo.jpg" alt="Taehyeon Choi" onerror="this.parentNode.textContent='photo.jpg';"></div>
+    <div>
+      <p class="eyebrow">Computer Vision · 3D Perception · Generative Models</p>
+      <h1>Taehyeon Choi</h1>
+      <p class="ko-name">최태현 · Ph.D.</p>
+      <p class="affil"><strong>Research Professor</strong>, BK21 Educational Research Institute for AI-Contents Future Industry</p>
+      <p class="affil">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University</p>
+      <div class="contact">
+        <span>taehyeon [at] korea.ac.kr</span>
+        <a href="https://github.com/TaehyeonChoi">GitHub</a>
+        <a href="https://www.scopus.com/authid/detail.uri?authorId=55385446400">Scopus</a>
+      </div>
+    </div>
+  </div>
+<section>
   <h2>About</h2>
   <p>I am a computer vision researcher who has worked on deep learning for visual perception since 2016. My recent work builds end-to-end networks for 3D point cloud compression and upsampling (SAGANet, Unified-CUNet), emotion-aware image and color editing with diffusion and transformer models (SAGE), and CLIP-based multimodal anomaly detection. Earlier, I developed camera ray-correction models for near-central and refractive camera systems in autonomous driving.</p>
   <p>I received my Ph.D. from Korea University under Prof. Sanghoon Sull, with a dissertation on efficient camera ray correction using a 3D residual model. I currently serve on the editorial board of <em>TechArt: Journal of Arts and Imaging Science</em> and review for <em>Image and Vision Computing</em>, <em>The Visual Computer</em>, <em>Scientific Reports</em>, and <em>PLOS One</em>.</p>
@@ -145,8 +161,10 @@
     <span>Autonomous driving vision</span>
   </div>
 </section>
+</div>
 
-<section id="education">
+<!-- ===== EDUCATION ===== -->
+<section class="page" id="education">
   <h2>Education</h2>
   <div class="row">
     <div class="when">2012 – 2023</div>
@@ -158,14 +176,13 @@
   </div>
 </section>
 
-<section id="experience">
+<!-- ===== EXPERIENCE ===== -->
+<section class="page" id="experience">
   <h2>Experience</h2>
   <h3>Positions</h3>
   <div class="row">
     <div class="when">2026.09 – present</div>
     <div class="what"><strong>Research Professor</strong><span>BK21 Educational Research Institute for AI-Contents Future Industry, Chung-Ang University</span><span class="note">AI-CFT (AI &amp; Artificial Imaging Cross-Functional Team): art–engineering convergence project management and review · Emotion-driven color transform networks · 3D point cloud compression &amp; upsampling</span></div>
-  </div>
-  <div class="row">
   </div>
   <div class="row">
     <div class="when">2024.11 – 2026.08</div>
@@ -225,43 +242,45 @@
   </div>
 </section>
 
-<section id="publications">
+<!-- ===== PUBLICATIONS ===== -->
+<section class="page" id="publications">
   <h2>Publications</h2>
 
   <h3>Journal Articles</h3>
   <ol class="pubs">
-    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"Pair-Free Affective Image Editing with the Likelihood Ratio of an Emotion-Conditional Diffusion Prior,"</span> <span class="v"> 2026.<span class="tag">submitted</span></li>
-    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"SAGANet++: One Anisotropy Field for Reconstruction-Aware Keypoint Selection and Transformer-Based Point Cloud Upsampling,"</span> <span class="v"> 2026.<span class="tag">under review</span></li>
-    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"Unified-CUNet: A Transformer-Based Framework for Surface-Aware Point Cloud Compression and Upsampling,"</span> <span class="v"> 2026.<span class="tag">minor revision</span></li>
-    <li><span class="me">최태현</span>, 박진완, <span class="t">"확산 기반 감성 색편집의 장면별 저랭크 증류: 콘텐츠 제작을 위한 실시간 적용과 시간 일관성,"</span> <span class="v"> 2026.<span class="tag">under revision</span></li>
+    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"Pair-Free Affective Image Editing with the Likelihood Ratio of an Emotion-Conditional Diffusion Prior,"</span> 2026.<span class="tag">submitted</span></li>
+    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"SAGANet++: One Anisotropy Field for Reconstruction-Aware Keypoint Selection and Transformer-Based Point Cloud Upsampling,"</span> 2026.<span class="tag">under review</span></li>
+    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"Unified-CUNet: A Transformer-Based Framework for Surface-Aware Point Cloud Compression and Upsampling,"</span> 2026.<span class="tag">minor revision</span></li>
+    <li><span class="me">최태현</span>, 박진완, <span class="t">"확산 기반 감성 색편집의 장면별 저랭크 증류: 콘텐츠 제작을 위한 실시간 적용과 시간 일관성,"</span> 2026.<span class="tag">under revision</span></li>
     <li><span class="me">최태현</span>, <span class="t">"Bandwidth-Adaptive Rate Control for Point Cloud Compression and Upsampling on a Frozen Backbone(고정 백본 기반 포인트 클라우드 압축 및 업샘플링을 위한 대역폭 적응형 전송률 제어),"</span> <span class="v">한국통신학회논문지</span>, vol. 52, no. 4, Apr. 2027.<span class="tag">accepted</span></li>
     <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"SAGE: Spatially Aware Guided Emotion Color Transfer with Category-Adaptive Transformation,"</span> <span class="v">Image and Vision Computing</span>, vol. 173, 106058, Sep. 2026. <a class="doi" href="https://doi.org/10.1016/j.imavis.2026.106058">DOI</a></li>
     <li><span class="me">최태현</span>, 박진완, <span class="t">"저출생 시대 한국 게임시장의 인구학적 성숙과 핵심 이용자 집중,"</span> <span class="v">컴퓨터게임및콘텐츠 논문지</span>, vol. 39, no. 8, pp. 47–56, Aug. 2026. <a class="doi" href="http://doi.org/10.22819/kscg.2026.39.8.004">DOI</a></li>
     <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"SAGANet: Structure-Aware Geometric Anisotropy Network for Point Cloud Compression and Upsampling,"</span> <span class="v">IEEE Access</span>, vol. 14, pp. 21949–21965, Feb. 2026. <a class="doi" href="https://doi.org/10.1109/ACCESS.2026.3660979">DOI</a></li>
-    <li>J. Kim*, C. Kim*, S. Yoon, <span class="me">Taehyeon Choi</span>, S. Sull, <span class="t">"RBF-Based Camera Model Based on a Ray Constraint to Compensate for Refraction Error,"</span> <span class="v">Sensors</span>, vol. 23, no. 20, 8430, Oct. 2023. <a class="doi" href="https://doi.org/10.3390/s23208430">DOI</a></li>
-    <li>J. Kim, S. Yoon, <span class="me">T. Choi</span>, S. Sull, <span class="t">"Unsupervised Video Anomaly Detection Based on Similarity with Predefined Text Descriptions,"</span> <span class="v">Sensors</span>, vol. 23, no. 14, 6256, Jul. 2023. <a class="doi" href="https://doi.org/10.3390/s23146256">DOI</a></li>
-    <li><span class="me">Taehyeon Choi</span>, S. Yoon, J. Kim, S. Sull, <span class="t">"Noniterative Generalized Camera Model for Near-Central Camera System,"</span> <span class="v">Sensors</span>, vol. 23, no. 11, 5294, Jun. 2023. <a class="doi" href="https://doi.org/10.3390/s23115294">DOI</a></li>
-    <li>S. Yoon, <span class="me">Taehyeon Choi</span>, S. Sull, <span class="t">"Depth Estimation from Stereo Cameras through a Curved Transparent Medium,"</span> <span class="v">Pattern Recognition Letters</span>, vol. 129, pp. 101–107, Jan. 2020. <a class="doi" href="https://doi.org/10.1016/j.patrec.2019.11.012">DOI</a></li>
-    <li>S. Cha, <span class="me">Taehyeon Choi</span>, H. Lee, S. Sull, <span class="t">"An Optimized Backlight Local Dimming Algorithm for Edge-Lit LED Backlight LCDs,"</span> <span class="v">IEEE/OSA Journal of Display Technology</span>, vol. 11, no. 4, pp. 378–385, 2015. <a class="doi" href="https://doi.org/10.1109/JDT.2015.2401604">DOI</a></li>
-    <li><span class="me">Taehyeon Choi</span>, J. M. Ji, J. H. Park, S. Lee, <span class="t">"Efficient Edge-Directed Deblocking Algorithm for KOMPSAT-2 Satellite Images,"</span> <span class="v">The Imaging Science Journal</span>, vol. 62, no. 2, p. 79, 2013. <a class="doi" href="https://doi.org/10.1179/1743131X12Y.0000000037">DOI</a></li>
-    <li>H. Lee, <span class="me">Taehyeon Choi</span>, S. Sull, <span class="t">"Frame Layer CBR Encoding to Reduce Large Picture Quality Fluctuation,"</span> <span class="v">IEEE Transactions on Consumer Electronics</span>, vol. 58, no. 3, pp. 1031–1037, Aug. 2012. <a class="doi" href="https://doi.org/10.1109/TCE.2012.6311352">DOI</a></li>
+    <li>Jaehyun Kim*, Chanyoung Kim*, Seongwook Yoon, <span class="me">Taehyeon Choi</span>, Sanghoon Sull, <span class="t">"RBF-Based Camera Model Based on a Ray Constraint to Compensate for Refraction Error,"</span> <span class="v">Sensors</span>, vol. 23, no. 20, 8430, Oct. 2023. <a class="doi" href="https://doi.org/10.3390/s23208430">DOI</a></li>
+    <li>Jaehyun Kim, Seongwook Yoon, <span class="me">Taehyeon Choi</span>, Sanghoon Sull, <span class="t">"Unsupervised Video Anomaly Detection Based on Similarity with Predefined Text Descriptions,"</span> <span class="v">Sensors</span>, vol. 23, no. 14, 6256, Jul. 2023. <a class="doi" href="https://doi.org/10.3390/s23146256">DOI</a></li>
+    <li><span class="me">Taehyeon Choi</span>, Seongwook Yoon, Jaehyun Kim, Sanghoon Sull, <span class="t">"Noniterative Generalized Camera Model for Near-Central Camera System,"</span> <span class="v">Sensors</span>, vol. 23, no. 11, 5294, Jun. 2023. <a class="doi" href="https://doi.org/10.3390/s23115294">DOI</a></li>
+    <li>Seongwook Yoon, <span class="me">Taehyeon Choi</span>, Sanghoon Sull, <span class="t">"Depth Estimation from Stereo Cameras through a Curved Transparent Medium,"</span> <span class="v">Pattern Recognition Letters</span>, vol. 129, pp. 101–107, Jan. 2020. <a class="doi" href="https://doi.org/10.1016/j.patrec.2019.11.012">DOI</a></li>
+    <li>Seungwook Cha, <span class="me">Taehyeon Choi</span>, Hoonjae Lee, Sanghoon Sull, <span class="t">"An Optimized Backlight Local Dimming Algorithm for Edge-Lit LED Backlight LCDs,"</span> <span class="v">IEEE/OSA Journal of Display Technology</span>, vol. 11, no. 4, pp. 378–385, 2015. <a class="doi" href="https://doi.org/10.1109/JDT.2015.2401604">DOI</a></li>
+    <li><span class="me">Taehyeon Choi</span>, Jeongmin Ji, Joonhoon Park, Sangkeun Lee, <span class="t">"Efficient Edge-Directed Deblocking Algorithm for KOMPSAT-2 Satellite Images,"</span> <span class="v">The Imaging Science Journal</span>, vol. 62, no. 2, p. 79, 2013. <a class="doi" href="https://doi.org/10.1179/1743131X12Y.0000000037">DOI</a></li>
+    <li>Hoonjae Lee, <span class="me">Taehyeon Choi</span>, Sanghoon Sull, <span class="t">"Frame Layer CBR Encoding to Reduce Large Picture Quality Fluctuation,"</span> <span class="v">IEEE Transactions on Consumer Electronics</span>, vol. 58, no. 3, pp. 1031–1037, Aug. 2012. <a class="doi" href="https://doi.org/10.1109/TCE.2012.6311352">DOI</a></li>
     <li><span class="me">최태현</span>, 지정민, 박준훈, 최명진, 이상근, <span class="t">"위성영상에서의 적응적 압축잡음 제거 알고리즘,"</span> <span class="v">대한전자공학회 논문지 SP편</span>, vol. 48, no. 5, 2011.</li>
   </ol>
 
   <h3>Conference Papers</h3>
   <ol class="pubs">
-    <li><span class="me">T. Choi</span>, J. Park, <span class="t">"Sparse Point Cloud Reconstruction by Directed Compressed Sensing Network,"</span> <span class="v">ICUFN 2025</span>, Lisbon, Portugal, Jul. 2025. <a class="doi" href="https://doi.org/10.1109/ICUFN65838.2025.11169799">DOI</a></li>
+    <li><span class="me">Taehyeon Choi</span>, Jinwan Park, <span class="t">"Sparse Point Cloud Reconstruction by Directed Compressed Sensing Network,"</span> <span class="v">ICUFN 2025</span>, Lisbon, Portugal, Jul. 2025. <a class="doi" href="https://doi.org/10.1109/ICUFN65838.2025.11169799">DOI</a></li>
     <li><span class="me">최태현</span>, 이하린, 박진완, <span class="t">"시각적 대화: 생성 예술의 설명 가능한 신경망 연구,"</span> <span class="v">대한전자공학회 하계종합학술대회</span>, Jeju, Jun. 2025.</li>
     <li><span class="me">최태현</span>, 박진완, <span class="t">"LiDAR와 다중 심도 카메라 간의 보정 최적화를 위한 초기 변수 결정 방법,"</span> <span class="v">전자정보통신 학술대회</span>, Jeju, Dec. 2024.</li>
     <li>온장훈, 최상필, <span class="me">최태현</span>, 김명섭, 장가람, 이동혁, 배지훈, 박재한, <span class="t">"보행 패턴 추정을 위한 멀티모달 센서 기반 모듈형 데이터 획득 시스템 개발,"</span> <span class="v">한국생산제조학회 추계학술대회</span>, Jeju, Dec. 2023.</li>
     <li>박지원, <span class="me">최태현</span>, 설상훈, <span class="t">"딥러닝 기반 스테레오 영상의 시차지도 추정을 위한 개선된 스케일 불변 손실함수 구현,"</span> <span class="v">대한전자공학회 추계학술대회</span>, Incheon, Nov. 2017.</li>
     <li><span class="me">최태현</span>, 윤성욱, 설상훈, <span class="t">"스테레오 카메라에서 투명 인터페이스 왜곡으로 인한 거리 측정 오차 발생 분석에 관한 연구,"</span> <span class="v">대한전자공학회 추계학술대회</span>, Incheon, Nov. 2017.</li>
-    <li><span class="me">T. Choi</span>, J. Ji, J. Park, S. Lee, <span class="t">"Edge Adaptive Deblocking Method in the Satellite Image for Real-Time Application,"</span> <span class="v">IEEE ICCE-Berlin</span>, Berlin, Germany, Sep. 2011. <a class="doi" href="https://doi.org/10.1109/ICCE-Berlin.2011.6031847">DOI</a></li>
+    <li><span class="me">Taehyeon Choi</span>, Jeongmin Ji, Joonhoon Park, Sangkeun Lee, <span class="t">"Edge Adaptive Deblocking Method in the Satellite Image for Real-Time Application,"</span> <span class="v">IEEE ICCE-Berlin</span>, Berlin, Germany, Sep. 2011. <a class="doi" href="https://doi.org/10.1109/ICCE-Berlin.2011.6031847">DOI</a></li>
     <li><span class="me">최태현</span>, 김종수, 이상근, <span class="t">"양방향 필터와 PCA를 이용한 블록화 현상 제거 알고리듬,"</span> <span class="v">대한전자공학회 하계종합학술대회</span>, Jeju, Jun. 2010.</li>
   </ol>
 </section>
 
-<section id="service">
+<!-- ===== SERVICE ===== -->
+<section class="page" id="service">
   <h2>Academic Service</h2>
   <h3>Editorial Board</h3>
   <ul class="plain">
@@ -276,13 +295,14 @@
   </ul>
 </section>
 
-<section id="patents">
+<!-- ===== PATENTS ===== -->
+<section class="page" id="patents">
   <h2>Patents</h2>
   <ul class="plain">
-    <li>사전 학습된 이상 탐지 모델을 이용하여 비디오의 이상 탐지를 수행하는 방법 및 장치<span class="sub">KR application 10-2024-0011782, Jan. 2024 · with J. Kim, S. Sull, S. Yoon</span></li>
-    <li>카메라 렌즈 오염 경고 장치 및 방법<span class="sub">KR registration 10-2348123, Jan. 2022 · with M. Son, J. Choi, S. Sull, S. Yoon, J. Lim</span></li>
-    <li>차량의 장애물 검출 장치 및 방법<span class="sub">KR registration 10-2295579, Aug. 2021 · with S. Yoon, S. Sull, S. Yoon, J. Lee, J. Lim</span></li>
-    <li>투명 소재 곡면값 산출 방법 및 장치<span class="sub">KR registration 10-1866804, Jun. 2018 · with S. Sull, S. Yoon</span></li>
+    <li>사전 학습된 이상 탐지 모델을 이용하여 비디오의 이상 탐지를 수행하는 방법 및 장치<span class="sub">KR application 10-2024-0011782, Jan. 2024 · with 김재현, 설상훈, 윤성욱</span></li>
+    <li>카메라 렌즈 오염 경고 장치 및 방법<span class="sub">KR registration 10-2348123, Jan. 2022 · with 손민성, 최진욱, 설상훈, 윤성욱, 임재영</span></li>
+    <li>차량의 장애물 검출 장치 및 방법<span class="sub">KR registration 10-2295579, Aug. 2021 · with 윤성원, 설상훈, 윤성욱, 이재훈, 임재영</span></li>
+    <li>투명 소재 곡면값 산출 방법 및 장치<span class="sub">KR registration 10-1866804, Jun. 2018 · with 설상훈, 윤성욱</span></li>
   </ul>
 </section>
 
@@ -291,6 +311,22 @@
 <footer>
   <div class="wrap">Last updated October 2026 · Built with plain HTML</div>
 </footer>
+
+<script>
+  // 메뉴를 누르면 해당 페이지만 보이게 합니다 (주소 끝의 #이름 기준)
+  function showPage() {
+    var id = (location.hash || '#home').slice(1);
+    var pages = document.querySelectorAll('.page');
+    if (!document.getElementById(id) || !document.getElementById(id).classList.contains('page')) id = 'home';
+    pages.forEach(function (p) { p.classList.toggle('show', p.id === id); });
+    document.querySelectorAll('nav a').forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', showPage);
+  showPage();
+</script>
 
 </body>
 </html>
